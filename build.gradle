@@ -16,14 +16,12 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 group = 'com.logitopia'
-version = '1.0.0-SNAPSHOT'
-
-description = 'Platform Core Test'
+version = '1.0.0-RELEASE'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
