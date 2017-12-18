@@ -83,11 +83,16 @@ task buildJavadoc( type : Javadoc) {
     group 'Prepare for Pull Request'
     description 'Builds all required Javadoc and outputs it to the sites directory that it is published.'
 
+    // Make a directory for this release
+    def outputDir = "docs/javadoc/${version.replaceAll("\\."  ,  "_")}"
+    File versionDir = new File(outputDir)
+    versionDir.mkdirs()
+
     // Build javadoc for all of the Java source (non-optional)
     source = sourceSets.main.allJava
     classpath = configurations.compile
 
-    destinationDir = new File("docs/javadoc")
+    destinationDir = versionDir
 }
 
 task testReports( type : Test ) {
