@@ -99,7 +99,7 @@ task testReports( type : Test ) {
     reports.html.destination = new File("docs/TestReport")
 }
 
-task prepare() {
+task prepareRelease() {
     dependsOn 'testReports'
     dependsOn 'buildJavadoc'
 
