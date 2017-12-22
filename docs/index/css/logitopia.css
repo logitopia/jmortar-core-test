@@ -8,6 +8,10 @@
     height: auto;
 }
 
+.navbar-brand {
+    color: #70C95D !important;
+}
+
 path.lt-logo {
     fill: #70C95D !important;
     stroke: #70C95D !important;
