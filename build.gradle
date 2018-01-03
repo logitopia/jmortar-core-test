@@ -37,7 +37,7 @@ version = '1.0.0'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
-	options.encoding = 'UTF-8'
+    options.encoding = 'UTF-8'
 }
 
 bintray {
@@ -75,5 +75,41 @@ publishing {
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version:'1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task buildJavadoc( type : Javadoc) {
+    group 'Prepare for Pull Request'
+    description 'Builds all required Javadoc and outputs it to the sites directory that it is published.'
+
+    // Make a directory for this release
+    def outputDir = "docs/javadoc/${version.replaceAll("\\."  ,  "_")}"
+    File versionDir = new File(outputDir)
+    versionDir.mkdirs()
+
+    // Build javadoc for all of the Java source (non-optional)
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+
+    destinationDir = versionDir
+}
+
+task testReports( type : Test ) {
+    group 'Prepare for Pull Request'
+    description 'Runs test reports and outputs them to the sites directory so that they are published.'
+
+    // Store the test reports into our documentation site
+    reports.junitXml.destination = new File("docs/TestReport/xml")
+    reports.html.destination = new File("docs/TestReport")
+}
+
+task prepareRelease() {
+    dependsOn 'testReports'
+    dependsOn 'buildJavadoc'
+
+    group 'Prepare for Pull Request'
+    description 'Runs all tasks required to prepare for a pull request.'
+
+    // Nothing to do, should depend on everything else required....
 }
