@@ -15,6 +15,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
+
 buildscript {
     repositories {
         maven {
@@ -80,7 +83,7 @@ dependencies {
 }
 
 task buildJavadoc( type : Javadoc) {
-    group 'Prepare for Pull Request'
+    group 'Create a release'
     description 'Builds all required Javadoc and outputs it to the sites directory that it is published.'
 
     // Make a directory for this release
@@ -96,7 +99,7 @@ task buildJavadoc( type : Javadoc) {
 }
 
 task testReports( type : Test ) {
-    group 'Prepare for Pull Request'
+    group 'Create a release'
     description 'Runs test reports and outputs them to the sites directory so that they are published.'
 
     // Store the test reports into our documentation site
@@ -104,12 +107,25 @@ task testReports( type : Test ) {
     reports.html.destination = new File("docs/TestReport")
 }
 
+task writeReleaseVersion() {
+    group 'Create a release'
+    description 'Write the latest release number to the supported_releases file'
+
+    def releaseFile = new File("docs/supported_releases.json")
+    def releases = new JsonSlurper().parseText(releaseFile.text)
+
+    if (!releases.contains(version)) {
+        releases.add(version)
+    }
+
+    releaseFile.write(new JsonBuilder(releases.toSorted { a, b -> b <=> a }).toPrettyString())
+}
+
 task prepareRelease() {
     dependsOn 'testReports'
     dependsOn 'buildJavadoc'
+    dependsOn 'writeReleaseVersion'
 
-    group 'Prepare for Pull Request'
-    description 'Runs all tasks required to prepare for a pull request.'
-
-    // Nothing to do, should depend on everything else required....
+    group 'Create a release'
+    description 'Creates a release by generating the necessary developer documentation'
 }
