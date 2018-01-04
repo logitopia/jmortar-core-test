@@ -103,8 +103,8 @@ task testReports( type : Test ) {
     description 'Runs test reports and outputs them to the sites directory so that they are published.'
 
     // Store the test reports into our documentation site
-    reports.junitXml.destination = new File("docs/TestReport/xml")
-    reports.html.destination = new File("docs/TestReport")
+    reports.junitXml.destination = new File("docs/TestReport/${version.replaceAll("\\."  ,  "_")}/xml")
+    reports.html.destination = new File("docs/TestReport/${version.replaceAll("\\."  ,  "_")}")
 }
 
 task writeReleaseVersion() {
