@@ -154,7 +154,14 @@
                 <div class="card-body">
                     <h4 class="card-title">Test Results</h4>
                     <p class="card-text">The generated test result report from the latest release ONLY.</p>
-                    <a href="#" class="btn btn-primary">Test Report</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Test Report
+                        </button>
+                        <div id="testrep-dropdown" class="dropdown-menu">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -162,7 +169,8 @@
 </div>
 
 <!-- Generate links to release documentation -->
-<script>buildReleases()</script>
+<script>buildJavadocReleases()</script>
+<script>buildTestReportReleases()</script>
 
 <!-- Optional JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
