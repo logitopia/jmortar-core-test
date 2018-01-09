@@ -67,6 +67,7 @@ public abstract class AbstractUnitTest<T> {
    * @param parameterTypes The types of the parameters that the method uses.
    * @param parameters The parameters to be passed to the method.
    * @return The response from the private method.
+   * @throws PrivateTestMethodException An exception occurs when we can't reflectively access the private method.
    */
   public Object executePrivateMethod(final String methodName,
           final Class[] parameterTypes,
