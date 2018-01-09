@@ -61,4 +61,19 @@ public class AbstractUnitTestExecutePrivateMethodUnitTest extends TestCase {
             fail("An exception has been caught.");
         }
     }
+
+    /**
+     * Test that, given a missing private method, that we get an expected exception.
+     */
+    @Test
+    public void testMissingPrivateMethod() {
+        try {
+            Object result = subject.executePrivateMethod("invalidMethod", new Class[]{},
+                    new Object[]{});
+            fail("An exception has not been thrown.");
+        } catch (PrivateTestMethodException e) {
+            assertTrue("Is exception of the correct type", e instanceof PrivateTestMethodException);
+            assertTrue("Is the cause of expected type", e.getCause() instanceof NoSuchMethodException);
+        }
+    }
 }
