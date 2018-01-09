@@ -17,12 +17,11 @@
  */
 package com.logitopia.platform.core.test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import com.logitopia.platform.core.test.exception.PrivateTestMethodException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
 
 /**
  * The <tt>AbstractUniTest</tt> is a unit test that provides access to the subject and private
