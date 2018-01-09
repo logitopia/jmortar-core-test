@@ -19,6 +19,8 @@ package com.logitopia.platform.core.test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import com.logitopia.platform.core.test.exception.PrivateTestMethodException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,24 +71,14 @@ public abstract class AbstractUnitTest<T> {
    */
   public Object executePrivateMethod(final String methodName,
           final Class[] parameterTypes,
-          final Object[] parameters) {
+          final Object[] parameters) throws PrivateTestMethodException {
     try {
       Method privateMethod = subject.getClass().getDeclaredMethod(methodName, parameterTypes);
       privateMethod.setAccessible(true);
 
       return privateMethod.invoke(subject, parameters);
-    } catch (NoSuchMethodException ex) {
-      LOG.error("The method requested does not exist on the subject.", ex);
-    } catch (SecurityException ex) {
-      LOG.error("There has been an issue with security", ex);
-    } catch (IllegalAccessException ex) {
-      LOG.error("Unable to access the requested method.", ex);
-    } catch (IllegalArgumentException ex) {
-      LOG.error("The requested method is not configured with the arguments requested.", ex);
-    } catch (InvocationTargetException ex) {
-      LOG.error("An invocation target exception has occurred", ex);
+    } catch (Exception ex) {
+      throw new PrivateTestMethodException(ex);
     }
-    
-    return null;
   }
 }
