@@ -8,7 +8,7 @@ public class PrivateTestMethodException extends Exception {
     /**
      * Create the exception siting the cause of the error.
      *
-     * @param cause
+     * @param cause The root cause of the private test method exception.
      */
     public PrivateTestMethodException(Throwable cause) {
         super(cause);
