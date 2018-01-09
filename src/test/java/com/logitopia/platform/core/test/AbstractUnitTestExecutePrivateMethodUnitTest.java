@@ -76,4 +76,19 @@ public class AbstractUnitTestExecutePrivateMethodUnitTest extends TestCase {
             assertTrue("Is the cause of expected type", e.getCause() instanceof NoSuchMethodException);
         }
     }
+
+    /**
+     * Test that, given an invalid parameter type for a private method, we get an expected exception
+     */
+    @Test
+    public void testInvalidParameterOnPrivateMethod() {
+        try {
+            Object result = subject.executePrivateMethod("buildValue", new Class[]{Integer.class},
+                    new Object[]{2});
+            fail("An exception has not been thrown.");
+        } catch (PrivateTestMethodException e) {
+            assertTrue("Is exception of the correct type", e instanceof PrivateTestMethodException);
+            assertTrue("Is the cause of expected type", e.getCause() instanceof NoSuchMethodException);
+        }
+    }
 }
