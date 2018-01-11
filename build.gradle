@@ -33,6 +33,7 @@ apply plugin: 'java-library'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'jacoco'
 
 group = 'com.logitopia'
 version = '1.0.0'
@@ -62,6 +63,11 @@ repositories {
     jcenter()
 }
 
+jacoco {
+    toolVersion = "0.8.0"
+    //reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
 publishing {
     publications {
         publishToBintray(MavenPublication) {
@@ -69,7 +75,6 @@ publishing {
             groupId 'com.logitopia'
             artifactId 'jmortar-core-test'
             version version
-//            vcsTag = '1.3.0'
         }
     }
     repositories {
@@ -80,6 +85,14 @@ publishing {
 dependencies {
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.25'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/reports/jacoco/jacocoHtml")
+    }
 }
 
 task buildJavadoc( type : Javadoc) {
@@ -107,6 +120,21 @@ task testReports( type : Test ) {
     reports.html.destination = new File("docs/TestReport/${version.replaceAll("\\."  ,  "_")}")
 }
 
+task testCoverage( type: JacocoReport ) {
+    group 'Create a release'
+    description 'Run the test coverate reports and output them to the sites directory.'
+
+    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+    classDirectories =  files(sourceSets.main.output)
+    executionData = files(jacocoTestReport.executionData)
+
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("docs/jacoco/${version.replaceAll("\\.", "_")}/jacocoHtml")
+    }
+}
+
 task writeReleaseVersion() {
     group 'Create a release'
     description 'Write the latest release number to the supported_releases file'
@@ -123,6 +151,7 @@ task writeReleaseVersion() {
 
 task prepareRelease() {
     dependsOn 'testReports'
+    dependsOn 'testCoverage'
     dependsOn 'buildJavadoc'
     dependsOn 'writeReleaseVersion'
 
