@@ -17,10 +17,11 @@
  */
 package com.logitopia.platform.core.test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import com.logitopia.platform.core.test.exception.PrivateTestMethodException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.lang.reflect.Method;
 
 /**
  * The <tt>AbstractUniTest</tt> is a unit test that provides access to the subject and private
@@ -66,27 +67,18 @@ public abstract class AbstractUnitTest<T> {
    * @param parameterTypes The types of the parameters that the method uses.
    * @param parameters The parameters to be passed to the method.
    * @return The response from the private method.
+   * @throws PrivateTestMethodException An exception occurs when we can't reflectively access the private method.
    */
   public Object executePrivateMethod(final String methodName,
           final Class[] parameterTypes,
-          final Object[] parameters) {
+          final Object[] parameters) throws PrivateTestMethodException {
     try {
       Method privateMethod = subject.getClass().getDeclaredMethod(methodName, parameterTypes);
       privateMethod.setAccessible(true);
 
       return privateMethod.invoke(subject, parameters);
-    } catch (NoSuchMethodException ex) {
-      LOG.error("The method requested does not exist on the subject.", ex);
-    } catch (SecurityException ex) {
-      LOG.error("There has been an issue with security", ex);
-    } catch (IllegalAccessException ex) {
-      LOG.error("Unable to access the requested method.", ex);
-    } catch (IllegalArgumentException ex) {
-      LOG.error("The requested method is not configured with the arguments requested.", ex);
-    } catch (InvocationTargetException ex) {
-      LOG.error("An invocation target exception has occurred", ex);
+    } catch (Exception ex) {
+      throw new PrivateTestMethodException(ex);
     }
-    
-    return null;
   }
 }

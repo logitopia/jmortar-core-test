@@ -15,6 +15,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
+
 buildscript {
     repositories {
         maven {
@@ -30,6 +33,7 @@ apply plugin: 'java-library'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'jacoco'
 
 group = 'com.logitopia'
 version = '1.0.0'
@@ -59,6 +63,11 @@ repositories {
     jcenter()
 }
 
+jacoco {
+    toolVersion = "0.8.0"
+    //reportsDir = file("$buildDir/customJacocoReportDir")
+}
+
 publishing {
     publications {
         publishToBintray(MavenPublication) {
@@ -66,7 +75,6 @@ publishing {
             groupId 'com.logitopia'
             artifactId 'jmortar-core-test'
             version version
-//            vcsTag = '1.3.0'
         }
     }
     repositories {
@@ -79,8 +87,16 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/reports/jacoco/jacocoHtml")
+    }
+}
+
 task buildJavadoc( type : Javadoc) {
-    group 'Prepare for Pull Request'
+    group 'Create a release'
     description 'Builds all required Javadoc and outputs it to the sites directory that it is published.'
 
     // Make a directory for this release
@@ -96,20 +112,49 @@ task buildJavadoc( type : Javadoc) {
 }
 
 task testReports( type : Test ) {
-    group 'Prepare for Pull Request'
+    group 'Create a release'
     description 'Runs test reports and outputs them to the sites directory so that they are published.'
 
     // Store the test reports into our documentation site
-    reports.junitXml.destination = new File("docs/TestReport/xml")
-    reports.html.destination = new File("docs/TestReport")
+    reports.junitXml.destination = new File("docs/TestReport/${version.replaceAll("\\."  ,  "_")}/xml")
+    reports.html.destination = new File("docs/TestReport/${version.replaceAll("\\."  ,  "_")}")
+}
+
+task testCoverage( type: JacocoReport ) {
+    group 'Create a release'
+    description 'Run the test coverate reports and output them to the sites directory.'
+
+    sourceDirectories = files(sourceSets.main.allSource.srcDirs)
+    classDirectories =  files(sourceSets.main.output)
+    executionData = files(jacocoTestReport.executionData)
+
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("docs/jacoco/${version.replaceAll("\\.", "_")}/jacocoHtml")
+    }
+}
+
+task writeReleaseVersion() {
+    group 'Create a release'
+    description 'Write the latest release number to the supported_releases file'
+
+    def releaseFile = new File("docs/supported_releases.json")
+    def releases = new JsonSlurper().parseText(releaseFile.text)
+
+    if (!releases.contains(version)) {
+        releases.add(version)
+    }
+
+    releaseFile.write(new JsonBuilder(releases.toSorted { a, b -> b <=> a }).toPrettyString())
 }
 
 task prepareRelease() {
     dependsOn 'testReports'
+    dependsOn 'testCoverage'
     dependsOn 'buildJavadoc'
+    dependsOn 'writeReleaseVersion'
 
-    group 'Prepare for Pull Request'
-    description 'Runs all tasks required to prepare for a pull request.'
-
-    // Nothing to do, should depend on everything else required....
+    group 'Create a release'
+    description 'Creates a release by generating the necessary developer documentation'
 }
