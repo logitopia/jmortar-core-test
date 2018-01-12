@@ -150,10 +150,10 @@
             </div>
 
             <div class="card" style="width: 20rem;">
-                <img class="card-img-top" src="index/image/check.svg"></img>
+                <img class="card-img-top" src="index/image/check.svg"/>
                 <div class="card-body">
                     <h4 class="card-title">Test Results</h4>
-                    <p class="card-text">The generated test result report from the latest release ONLY.</p>
+                    <p class="card-text">Generated test result reports for ALL supported releases.</p>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -164,13 +164,32 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card" style="width: 20rem;">
+                <img class="card-img-top" src="index/image/graph.svg"/>
+                <div class="card-body">
+                    <h4 class="card-title">Test Coverage</h4>
+                    <p class="card-text">Generated test coverage reports for ALL supported releases.</p>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Test Coverage
+                        </button>
+                        <div id="testcov-dropdown" class="dropdown-menu">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <!-- Generate links to release documentation -->
-<script>buildJavadocReleases()</script>
-<script>buildTestReportReleases()</script>
+<script>
+    buildJavadocReleases()
+    buildTestReportReleases()
+    buildTestCoverageReportReleases()
+</script>
 
 <!-- Optional JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
@@ -179,6 +198,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
         integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
         crossorigin="anonymous"></script>
-
 </body>
 </html>
