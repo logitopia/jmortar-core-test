@@ -8,5 +8,14 @@ body {
 }
 
 .card-img-top {
-    padding: 120px
+    margin: 5em 0;
+    height: 80px;
+}
+
+.card-body {
+    padding: 1.5em 1.5em 1em 1.5em
+}
+
+.btn-group {
+    margin: 0 0 1em 1em
 }
