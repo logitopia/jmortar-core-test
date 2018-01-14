@@ -13,8 +13,8 @@ This is the first JMortar library to be migrated to GitHub, once the other libra
 
 ## User Guide
 
-[[User Guide|User Guide]]
+[User Guide](https://github.com/logitopia/jmortar-core-test/wiki/User-Guide)
 
 ## Contributor Guidelines
 
-[[Contributor Guidelines|Contributor Guidelines]]
+[Contributor Guidelines](https://github.com/logitopia/jmortar-core-test/wiki/Contributor-Guidelines)
