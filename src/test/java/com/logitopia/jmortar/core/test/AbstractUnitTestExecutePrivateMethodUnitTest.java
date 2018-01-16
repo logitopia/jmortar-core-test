@@ -1,7 +1,7 @@
-package com.logitopia.platform.core.test;
+package com.logitopia.jmortar.core.test;
 
-import com.logitopia.platform.core.test.exception.PrivateTestMethodException;
-import com.logitopia.platform.core.test.fixtures.TestUnitTest;
+import com.logitopia.jmortar.core.test.exception.PrivateTestMethodException;
+import com.logitopia.jmortar.core.test.fixtures.TestUnitTest;
 import junit.framework.TestCase;
 import org.junit.*;
 

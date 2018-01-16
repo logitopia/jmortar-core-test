@@ -1,6 +1,6 @@
-package com.logitopia.platform.core.test.fixtures;
+package com.logitopia.jmortar.core.test.fixtures;
 
-import com.logitopia.platform.core.test.AbstractUnitTest;
+import com.logitopia.jmortar.core.test.AbstractUnitTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

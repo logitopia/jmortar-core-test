@@ -15,9 +15,9 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.logitopia.platform.core.test;
+package com.logitopia.jmortar.core.test;
 
-import com.logitopia.platform.core.test.exception.PrivateTestMethodException;
+import com.logitopia.jmortar.core.test.exception.PrivateTestMethodException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
