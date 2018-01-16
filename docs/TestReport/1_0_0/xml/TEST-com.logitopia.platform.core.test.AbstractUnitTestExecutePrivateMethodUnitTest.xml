@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.logitopia.platform.core.test.AbstractUnitTestExecutePrivateMethodUnitTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2018-01-09T23:05:15" hostname="DESKTOP-2PUINBP" time="0.031">
-  <properties/>
-  <testcase name="testInvalidParameterOnPrivateMethod" classname="com.logitopia.platform.core.test.AbstractUnitTestExecutePrivateMethodUnitTest" time="0.03"/>
-  <testcase name="testBasicSuccess" classname="com.logitopia.platform.core.test.AbstractUnitTestExecutePrivateMethodUnitTest" time="0.0"/>
-  <testcase name="testMissingPrivateMethod" classname="com.logitopia.platform.core.test.AbstractUnitTestExecutePrivateMethodUnitTest" time="0.001"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

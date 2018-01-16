@@ -1,4 +1,4 @@
-package com.logitopia.platform.core.test.exception;
+package com.logitopia.jmortar.core.test.exception;
 
 /**
  * An exception that is thrown when there is an issue calling a private test method.

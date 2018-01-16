@@ -1,4 +1,4 @@
-package com.logitopia.platform.core.test.fixtures;
+package com.logitopia.jmortar.core.test.fixtures;
 
 /**
  * A test subject class.
