@@ -1,4 +1,9 @@
+# IDEA specific
+.idea/modules
+.idea/libraries
 .idea/workspace.xml
+.idea/encodings.xml
+
 .gradle
 *.iml
 build/
