@@ -64,7 +64,7 @@ public abstract class AbstractUnitTest<T> {
      */
     public Object getFieldValue(final String fieldName) throws TestFieldException {
         try {
-            Field field = subject.getClass().getField(fieldName);
+            Field field = subject.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
 
             return field.get(subject);
