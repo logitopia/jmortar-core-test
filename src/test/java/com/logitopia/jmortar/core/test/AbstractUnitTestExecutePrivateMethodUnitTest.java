@@ -12,7 +12,7 @@ public class AbstractUnitTestExecutePrivateMethodUnitTest extends TestCase {
      */
     private TestUnitTest subject;
 
-    /*
+    /**
      * Default Constructor.
      */
     public AbstractUnitTestExecutePrivateMethodUnitTest() {
