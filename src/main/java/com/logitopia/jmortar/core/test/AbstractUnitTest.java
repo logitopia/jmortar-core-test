@@ -62,7 +62,7 @@ public abstract class AbstractUnitTest<T> {
      * @return The Object representing the value of the field.
      * @throws TestFieldException thrown when the field is missing or inaccessible.
      */
-    private Object getFieldValue(final String fieldName) throws TestFieldException {
+    public Object getFieldValue(final String fieldName) throws TestFieldException {
         try {
             Field field = subject.getClass().getField(fieldName);
             field.setAccessible(true);
