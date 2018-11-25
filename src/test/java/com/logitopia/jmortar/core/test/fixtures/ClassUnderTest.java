@@ -6,6 +6,16 @@ package com.logitopia.jmortar.core.test.fixtures;
 public class ClassUnderTest {
 
     /**
+     * A test field of type <tt>String</tt>
+     */
+    private String testString = "testStringVal";
+
+    /**
+     * A test field of type <tt>int</tt> (primitive)
+     */
+    private int testInt = 6;
+
+    /**
      * A private method that returns a pre-determined value for testing.
      *
      * @return A predetermined value (5)

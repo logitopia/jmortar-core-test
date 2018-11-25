@@ -18,67 +18,92 @@
 package com.logitopia.jmortar.core.test;
 
 import com.logitopia.jmortar.core.test.exception.PrivateTestMethodException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.logitopia.jmortar.core.test.exception.TestFieldException;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
  * The <tt>AbstractUniTest</tt> is a unit test that provides access to the subject and private
  * subject resources.
  *
- * @author Stephen Cheesley
  * @param <T> The subject type.
+ * @author Stephen Cheesley
  */
 public abstract class AbstractUnitTest<T> {
-  
-  /**
-   * The logger for this class.
-   */
-  private static final Logger LOG = LoggerFactory.getLogger(AbstractUnitTest.class);
 
-  /**
-   * The subject of the unit test (the class that we will be testing on).
-   */
-  private T subject;
+    /**
+     * The subject of the unit test (the class that we will be testing on).
+     */
+    private T subject;
 
-  /**
-   * Get the subject.
-   *
-   * @return The subject of this test.
-   */
-  public T getSubject() {
-    return subject;
-  }
-
-  /**
-   * Set the test subject.
-   *
-   * @param newSubject The subject of this test.
-   */
-  public void setSubject(final T newSubject) {
-    subject = newSubject;
-  }
-
-  /**
-   * Execute a private method on the given subject.
-   *
-   * @param methodName The name of the method on the subject to execute.
-   * @param parameterTypes The types of the parameters that the method uses.
-   * @param parameters The parameters to be passed to the method.
-   * @return The response from the private method.
-   * @throws PrivateTestMethodException An exception occurs when we can't reflectively access the private method.
-   */
-  public Object executePrivateMethod(final String methodName,
-          final Class[] parameterTypes,
-          final Object[] parameters) throws PrivateTestMethodException {
-    try {
-      Method privateMethod = subject.getClass().getDeclaredMethod(methodName, parameterTypes);
-      privateMethod.setAccessible(true);
-
-      return privateMethod.invoke(subject, parameters);
-    } catch (Exception ex) {
-      throw new PrivateTestMethodException(ex);
+    /**
+     * Get the subject.
+     *
+     * @return The subject of this test.
+     */
+    public T getSubject() {
+        return subject;
     }
-  }
+
+    /**
+     * Set the test subject.
+     *
+     * @param newSubject The subject of this test.
+     */
+    public void setSubject(final T newSubject) {
+        subject = newSubject;
+    }
+
+    /**
+     * Get the value from a private field on the test subject class.
+     *
+     * @param fieldName The name of the field we wish to get the value for.
+     * @return The Object representing the value of the field.
+     * @throws TestFieldException thrown when the field is missing or inaccessible.
+     */
+    public Object getFieldValue(final String fieldName) throws TestFieldException {
+        try {
+            Field field = subject.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+
+            return field.get(subject);
+        } catch (NoSuchFieldException e) {
+            String msg = new StringBuilder("The field ")
+                    .append(fieldName)
+                    .append(" was missing from the test object of type ")
+                    .append(subject.getClass().getSimpleName())
+                    .toString();
+            throw new TestFieldException(msg, e);
+        } catch (IllegalAccessException e) {
+            String msg = new StringBuilder("Unable to access the field ")
+                    .append(fieldName)
+                    .append(" from the test object of type ")
+                    .append(subject.getClass().getSimpleName())
+                    .toString();
+            throw new TestFieldException(msg, e);
+        }
+    }
+
+    /**
+     * Execute a private method on the given subject.
+     *
+     * @param methodName     The name of the method on the subject to execute.
+     * @param parameterTypes The types of the parameters that the method uses.
+     * @param parameters     The parameters to be passed to the method.
+     * @return The response from the private method.
+     * @throws PrivateTestMethodException An exception occurs when we can't reflectively access the private method.
+     */
+    public Object executePrivateMethod(final String methodName,
+                                       final Class[] parameterTypes,
+                                       final Object[] parameters) throws PrivateTestMethodException {
+        try {
+            Method privateMethod = subject.getClass().getDeclaredMethod(methodName, parameterTypes);
+            privateMethod.setAccessible(true);
+
+            return privateMethod.invoke(subject, parameters);
+        } catch (Exception ex) {
+            throw new PrivateTestMethodException(ex);
+        }
+    }
 }
