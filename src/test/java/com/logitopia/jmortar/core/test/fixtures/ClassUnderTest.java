@@ -3,7 +3,7 @@ package com.logitopia.jmortar.core.test.fixtures;
 /**
  * A test subject class.
  */
-public class ClassUnderTest {
+public class ClassUnderTest extends AbstractClassUnderTest {
 
     /**
      * A test field of type <tt>String</tt>
