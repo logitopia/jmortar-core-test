@@ -34,17 +34,13 @@ public class AbstractUnitTestGetFieldValueUnitTest extends TestCase {
      * Test that, given positive input, we get positive output.
      */
     @Test
-    public void testBasicSuccess() {
-        try {
-            Object result = subject.getFieldValue("testString");
-            assertNotNull("Has a result been returned?", result);
-            assertTrue("Is result correct type", result instanceof String);
+    public void testBasicSuccess() throws TestFieldException {
+        Object result = subject.getFieldValue("testString");
+        assertNotNull("Has a result been returned?", result);
+        assertTrue("Is result correct type", result instanceof String);
 
-            // Check that the value is expected
-            assertEquals("Does the content of the result match as expected", "testStringVal", result);
-        } catch (TestFieldException e) {
-            e.printStackTrace();
-        }
+        // Check that the value is expected
+        assertEquals("Does the content of the result match as expected", "testStringVal", result);
     }
 
     /**
@@ -58,7 +54,8 @@ public class AbstractUnitTestGetFieldValueUnitTest extends TestCase {
             assertTrue("Is result correct type", result instanceof String);
 
             // Check that the value is expected
-            assertEquals("Does the content of the result match as expected", "testStringVal", result);
+            assertEquals("Does the content of the result match as expected",
+                    "abstractFieldUnderTest", result);
         } catch (TestFieldException e) {
             e.printStackTrace();
             fail("An exception occurred whilst attempting to retrieve a private field");
