@@ -64,7 +64,7 @@ public abstract class AbstractUnitTest<T> {
      */
     public Object getFieldValue(final String fieldName) throws TestFieldException {
         try {
-            Field field = subject.getClass().getDeclaredField(fieldName);
+            Field field = getField(subject.getClass(), fieldName);
             field.setAccessible(true);
 
             return field.get(subject);
@@ -83,6 +83,20 @@ public abstract class AbstractUnitTest<T> {
                     .toString();
             throw new TestFieldException(msg, e);
         }
+    }
+
+    private Field getField(final Class clazz, final String fieldName) throws NoSuchFieldException {
+        Field declaredField;
+        try {
+            declaredField = clazz.getDeclaredField(fieldName);
+        } catch (NoSuchFieldException e) {
+            Class superClass = clazz.getSuperclass();
+            if (superClass == null) {
+                throw e;
+            }
+            declaredField = getField(superClass, fieldName);
+        }
+        return declaredField;
     }
 
     /**
